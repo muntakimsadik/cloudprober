@@ -1,4 +1,4 @@
-// Copyright 2018 The Cloudprober Authors.
+// Copyright 2018-2022 The Cloudprober Authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ import (
 	"github.com/cloudprober/cloudprober/servers"
 	"github.com/cloudprober/cloudprober/surfacers"
 	"github.com/cloudprober/cloudprober/sysvars"
+	"github.com/cloudprober/cloudprober/web/resources"
 )
 
 func execTmpl(tmpl *template.Template, v interface{}) template.HTML {
@@ -49,8 +50,10 @@ func Status() string {
 
 	tmpl, _ := template.New("statusTmpl").Parse(statusTmpl)
 	tmpl.Execute(&statusBuf, struct {
+		Style                                                                    string
 		Version, StartTime, Uptime, ProbesStatus, ServersStatus, SurfacersStatus interface{}
 	}{
+		Style:           resources.Style,
 		Version:         runconfig.Version(),
 		StartTime:       startTime.Format(time.RFC1123),
 		Uptime:          uptime.String(),
